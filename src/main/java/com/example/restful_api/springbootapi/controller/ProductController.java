@@ -20,61 +20,38 @@ public class ProductController {
         this.productService = productService;
     }
 
-    /**
-     * Create a new product.
-     *
-     * @param product the product to create
-     * @return the ResponseEntity with status 200 (OK) and with body of the new product
-     */
+
+    // Get all products.
+    @GetMapping("/products")
+    public List<Product> getAllProducts() {
+        return productService.getAllProducts();
+    }
+
+    // Create a new product.
     @PostMapping("/product")
     public ResponseEntity<Product> saveProduct(@RequestBody Product product) {
         Product newProduct = productService.saveProduct(product);
         return ResponseEntity.ok(newProduct);
     }
 
-    /**
-     * Get all products.
-     *
-     * @return the ResponseEntity with status 200 (OK) and with body of the list of products
-     */
-    @GetMapping("/products")
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
-    }
 
-    /**
-     * Get a product by ID.
-     *
-     * @param id the ID of the product to get
-     * @return the ResponseEntity with status 200 (OK) and with body of the product, or with status 404 (Not Found) if the product does not exist
-     */
-    @GetMapping("/products/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+    // Get a product by ID.
+    @GetMapping("/product")
+    public ResponseEntity<Product> getProductById(@RequestParam("id") Long id) {
         Optional<Product> product = productService.getProductById(id);
         return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    /**
-     * Update a product by ID.
-     *
-     * @param id the ID of the product to update
-     * @param product the updated product
-     * @return the ResponseEntity with status 200 (OK) and with body of the updated product, or with status 404 (Not Found) if the product does not exist
-     */
-    @PutMapping("/products/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product) {
+    //Update a product by ID.
+    @PutMapping("/product")
+    public ResponseEntity<Product> updateProduct(@RequestParam("id") Long id, @RequestBody Product product) {
         Product updatedProduct = productService.updateProduct(id, product);
         return ResponseEntity.ok(updatedProduct);
     }
 
-    /**
-     * Delete a product by ID.
-     *
-     * @param id the ID of the product to delete
-     * @return the ResponseEntity with status 200 (OK) and with body of the message "Product deleted successfully"
-     */
-    @DeleteMapping("/products/{id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
+    // Delete a product by ID.
+    @DeleteMapping("/product")
+    public ResponseEntity<String> deleteProduct(@RequestParam("id") Long id) {
         productService.deleteProduct(id);
         return ResponseEntity.ok("Product deleted successfully");
     }
