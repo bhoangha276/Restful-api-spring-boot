@@ -2,6 +2,7 @@ package com.example.restful_api.springbootapi.controller;
 
 import com.example.restful_api.springbootapi.entity.Product;
 import com.example.restful_api.springbootapi.service.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.util.Optional;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/v1")
+@RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
@@ -38,21 +40,21 @@ public class ProductController {
 
     // Get a product by ID.
     @GetMapping("/product")
-    public ResponseEntity<Product> getProductById(@RequestParam("id") Long id) {
+    public ResponseEntity<Product> getProductById(@RequestParam("id") String id) {
         Optional<Product> product = productService.getProductById(id);
         return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     //Update a product by ID.
     @PutMapping("/product")
-    public ResponseEntity<Product> updateProduct(@RequestParam("id") Long id, @RequestBody Product product) {
+    public ResponseEntity<Product> updateProduct(@RequestParam("id") String id, @RequestBody Product product) {
         Product updatedProduct = productService.updateProduct(id, product);
         return ResponseEntity.ok(updatedProduct);
     }
 
     // Delete a product by ID.
     @DeleteMapping("/product")
-    public ResponseEntity<String> deleteProduct(@RequestParam("id") Long id) {
+    public ResponseEntity<String> deleteProduct(@RequestParam("id") String id) {
         productService.deleteProduct(id);
         return ResponseEntity.ok("Product deleted successfully");
     }
