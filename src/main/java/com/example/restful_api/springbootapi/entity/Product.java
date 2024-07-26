@@ -24,5 +24,4 @@ public class Product {
 
     @Column(name = "QUANTITY")
     private int quantity;
-
 }
