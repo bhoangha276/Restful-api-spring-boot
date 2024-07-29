@@ -4,8 +4,15 @@ import com.example.restful_api.springbootapi.entity.Product;
 import com.example.restful_api.springbootapi.repository.ProductRepository;
 import com.example.restful_api.springbootapi.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.example.restful_api.springbootapi.utils.Pageables;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,8 +27,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<Product> getAllProducts(String sort, Integer page, Integer size) {
+        sort = (sort == null || sort.isEmpty()) ? "name" : sort;
+        page = (page == null || page < 0) ? 0 : page;
+        size = (size == null || size <= 0) ? 5 : size;
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
+
+        Page<Product> pagedResult = productRepository.findAll(pageable);
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Product>();
+        }
     }
 
     @Override

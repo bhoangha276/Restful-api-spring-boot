@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductService {
-    List<Product> getAllProducts();
+    List<Product> getAllProducts(String sort, Integer page, Integer size);
 
     Optional<Product> getProductById(String id);
 
