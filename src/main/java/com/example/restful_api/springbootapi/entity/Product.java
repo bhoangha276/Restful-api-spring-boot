@@ -1,56 +1,27 @@
 package com.example.restful_api.springbootapi.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
+@Getter
+@Setter
 @Entity
-@Table(name = "product")
+@Table(name = "PRODUCT")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Column(name = "ID")
+    private String id;
 
-    @Column(nullable = false)
+    @Column(name = "NAME")
     private String name;
 
-    @Column(nullable = false)
+    @Column(name = "PRICE")
     private double price;
 
-    @Column(nullable = false)
+    @Column(name = "QUANTITY")
     private int quantity;
-
-    // Constructors, getters and setters, and other methods...
-
-    // Getters
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    //  Setters
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
 }
