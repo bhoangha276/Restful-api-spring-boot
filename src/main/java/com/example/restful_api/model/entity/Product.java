@@ -1,4 +1,4 @@
-package com.example.restful_api.springbootapi.entity;
+package com.example.restful_api.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

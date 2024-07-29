@@ -1,11 +1,11 @@
 package com.example.restful_api.springbootapi.controller;
 
-import com.example.restful_api.springbootapi.entity.Product;
+import com.example.restful_api.model.entity.Product;
+import com.example.restful_api.model.response.BaseResponse;
 import com.example.restful_api.springbootapi.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,10 +26,11 @@ public class ProductController {
 
     // Get all products.
     @GetMapping("/products")
-    public List<Product> getAllProducts(@RequestParam(required = false, defaultValue = "") String sort,
-                                        @Valid @NotNull @PositiveOrZero @RequestParam(value = "page", defaultValue = "0") Integer page,
-                                        @Valid @NotNull @PositiveOrZero @RequestParam(value = "size", defaultValue = "5") Integer size) {
-        return productService.getAllProducts(sort, page, size);
+    public ResponseEntity<Object> getAllProducts(@RequestParam(required = false, defaultValue = "") String sort,
+                                                 @Valid @NotNull @PositiveOrZero @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                 @Valid @NotNull @PositiveOrZero @RequestParam(value = "size", defaultValue = "5") Integer size) {
+
+        return BaseResponse.ofSucceeded(productService.getAllProducts(sort, page, size));
     }
 
     // Create a new product.
