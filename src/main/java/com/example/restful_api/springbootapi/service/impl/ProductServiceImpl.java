@@ -63,6 +63,7 @@ public class ProductServiceImpl implements ProductService {
             product.setName(updatedProduct.getName());
             product.setPrice(updatedProduct.getPrice());
             product.setQuantity(updatedProduct.getQuantity());
+            product.setCreatedDate(updatedProduct.getCreatedDate());
             return productRepository.save(product);
         } else {
             throw new RuntimeException("Product not found");
