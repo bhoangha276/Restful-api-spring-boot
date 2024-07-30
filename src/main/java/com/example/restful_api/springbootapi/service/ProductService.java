@@ -12,6 +12,8 @@ public interface ProductService {
 
     Optional<Product> getProductById(String id);
 
+    List<Product> getProductByName(String name);
+
     Product saveProduct(Product product);
 
     Product updateProduct(String id, Product Product);

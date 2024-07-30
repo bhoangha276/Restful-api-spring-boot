@@ -28,7 +28,7 @@ public class ProductController {
     @GetMapping("/products")
     public ResponseEntity<Object> getAllProducts(@RequestParam(required = false, defaultValue = "") String sort,
                                                  @Valid @NotNull @PositiveOrZero @RequestParam(value = "page", defaultValue = "0") Integer page,
-                                                 @Valid @NotNull @PositiveOrZero @RequestParam(value = "size", defaultValue = "5") Integer size) {
+                                                 @Valid @NotNull @PositiveOrZero @RequestParam(value = "size", defaultValue = "10") Integer size) {
 
         return BaseResponse.ofSucceeded(productService.getAllProducts(sort, page, size));
     }
@@ -40,19 +40,22 @@ public class ProductController {
         return ResponseEntity.ok(newProduct);
     }
 
-
     // Get a product by ID.
     @GetMapping("/product")
-
     public ResponseEntity<Product> getProductById(@RequestParam("id") String id) {
         Optional<Product> product = productService.getProductById(id);
         return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/product/search")
+    public ResponseEntity<List<Product>> getProductByName(@RequestParam("name") String name) {
+        List<Product> products = productService.getProductByName(name);
+        return ResponseEntity.ok(products);
+    }
+
     //Update a product by ID.
     @PutMapping("/product")
     public ResponseEntity<Product> updateProduct(@RequestParam("id") String id, @RequestBody Product product) {
-
         Product updatedProduct = productService.updateProduct(id, product);
         return ResponseEntity.ok(updatedProduct);
     }
