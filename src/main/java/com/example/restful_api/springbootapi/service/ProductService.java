@@ -1,6 +1,6 @@
 package com.example.restful_api.springbootapi.service;
 
-import com.example.restful_api.model.entity.Product;
+import com.example.restful_api.springbootapi.model.entity.Product;
 
 import java.util.List;
 import java.util.Optional;

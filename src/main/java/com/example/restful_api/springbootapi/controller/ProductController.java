@@ -1,7 +1,7 @@
 package com.example.restful_api.springbootapi.controller;
 
-import com.example.restful_api.model.entity.Product;
-import com.example.restful_api.model.response.BaseResponse;
+import com.example.restful_api.springbootapi.model.entity.Product;
+import com.example.restful_api.springbootapi.model.response.BaseResponse;
 import com.example.restful_api.springbootapi.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
