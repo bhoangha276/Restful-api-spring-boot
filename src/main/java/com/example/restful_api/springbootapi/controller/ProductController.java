@@ -1,11 +1,11 @@
 package com.example.restful_api.springbootapi.controller;
 
-import com.example.restful_api.springbootapi.entity.Product;
+import com.example.restful_api.model.entity.Product;
+import com.example.restful_api.model.response.BaseResponse;
 import com.example.restful_api.springbootapi.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,10 +26,11 @@ public class ProductController {
 
     // Get all products.
     @GetMapping("/products")
-    public List<Product> getAllProducts(@RequestParam(required = false, defaultValue = "") String sort,
-                                        @Valid @NotNull @PositiveOrZero @RequestParam(value = "page", defaultValue = "0") Integer page,
-                                        @Valid @NotNull @PositiveOrZero @RequestParam(value = "size", defaultValue = "5") Integer size) {
-        return productService.getAllProducts(sort, page, size);
+    public ResponseEntity<Object> getAllProducts(@RequestParam(required = false, defaultValue = "") String sort,
+                                                 @Valid @NotNull @PositiveOrZero @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                 @Valid @NotNull @PositiveOrZero @RequestParam(value = "size", defaultValue = "10") Integer size) {
+
+        return BaseResponse.ofSucceeded(productService.getAllProducts(sort, page, size));
     }
 
     // Create a new product.
@@ -39,19 +40,22 @@ public class ProductController {
         return ResponseEntity.ok(newProduct);
     }
 
-
     // Get a product by ID.
     @GetMapping("/product")
-
     public ResponseEntity<Product> getProductById(@RequestParam("id") String id) {
         Optional<Product> product = productService.getProductById(id);
         return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/product/search")
+    public ResponseEntity<List<Product>> getProductByName(@RequestParam("name") String name) {
+        List<Product> products = productService.getProductByName(name);
+        return ResponseEntity.ok(products);
+    }
+
     //Update a product by ID.
     @PutMapping("/product")
     public ResponseEntity<Product> updateProduct(@RequestParam("id") String id, @RequestBody Product product) {
-
         Product updatedProduct = productService.updateProduct(id, product);
         return ResponseEntity.ok(updatedProduct);
     }

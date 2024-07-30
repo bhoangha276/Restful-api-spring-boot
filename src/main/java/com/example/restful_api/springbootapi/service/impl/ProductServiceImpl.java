@@ -1,6 +1,6 @@
 package com.example.restful_api.springbootapi.service.impl;
 
-import com.example.restful_api.springbootapi.entity.Product;
+import com.example.restful_api.model.entity.Product;
 import com.example.restful_api.springbootapi.repository.ProductRepository;
 import com.example.restful_api.springbootapi.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +9,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import com.example.restful_api.springbootapi.utils.Pageables;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +25,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public long getProductCount() {
+        return productRepository.count();
+    }
+
+    @Override
     public List<Product> getAllProducts(String sort, Integer page, Integer size) {
         sort = (sort == null || sort.isEmpty()) ? "name" : sort;
         page = (page == null || page < 0) ? 0 : page;
@@ -35,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
 
         Page<Product> pagedResult = productRepository.findAll(pageable);
-        if(pagedResult.hasContent()) {
+        if (pagedResult.hasContent()) {
             return pagedResult.getContent();
         } else {
             return new ArrayList<Product>();
@@ -45,6 +48,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Optional<Product> getProductById(String id) {
         return productRepository.findById(id);
+    }
+
+    @Override
+    public List<Product> getProductByName(String name) {
+        return productRepository.findByNameLike("%" + name + "%");
     }
 
     @Override
@@ -60,6 +68,7 @@ public class ProductServiceImpl implements ProductService {
             product.setName(updatedProduct.getName());
             product.setPrice(updatedProduct.getPrice());
             product.setQuantity(updatedProduct.getQuantity());
+            product.setCreatedDate(updatedProduct.getCreatedDate());
             return productRepository.save(product);
         } else {
             throw new RuntimeException("Product not found");
