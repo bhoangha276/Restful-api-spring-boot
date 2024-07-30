@@ -1,4 +1,4 @@
-package com.example.restful_api.model.response;
+package com.example.restful_api.springbootapi.model.response;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
 package com.example.restful_api.springbootapi.repository;
 
-import com.example.restful_api.model.entity.Product;
+import com.example.restful_api.springbootapi.model.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

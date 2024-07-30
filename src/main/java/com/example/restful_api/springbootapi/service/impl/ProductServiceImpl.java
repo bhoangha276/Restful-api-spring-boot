@@ -1,6 +1,6 @@
 package com.example.restful_api.springbootapi.service.impl;
 
-import com.example.restful_api.model.entity.Product;
+import com.example.restful_api.springbootapi.model.entity.Product;
 import com.example.restful_api.springbootapi.repository.ProductRepository;
 import com.example.restful_api.springbootapi.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
