@@ -18,14 +18,14 @@ import javax.validation.constraints.PositiveOrZero;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/product")
 @RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
 
     // Get all products.
-    @GetMapping("/products")
+    @GetMapping("/all")
     public ResponseEntity<Object> getAllProducts(@RequestParam(required = false, defaultValue = "") String sort,
                                                  @Valid @NotNull @PositiveOrZero @RequestParam(value = "page", defaultValue = "0") Integer page,
                                                  @Valid @NotNull @PositiveOrZero @RequestParam(value = "size", defaultValue = "10") Integer size) {
@@ -34,34 +34,34 @@ public class ProductController {
     }
 
     // Create a new product.
-    @PostMapping("/product")
+    @PostMapping("")
     public ResponseEntity<Product> saveProduct(@RequestBody Product product) {
         Product newProduct = productService.saveProduct(product);
         return ResponseEntity.ok(newProduct);
     }
 
     // Get a product by ID.
-    @GetMapping("/product")
+    @GetMapping("")
     public ResponseEntity<Product> getProductById(@RequestParam("id") String id) {
         Optional<Product> product = productService.getProductById(id);
         return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/product/search")
+    @GetMapping("/search")
     public ResponseEntity<List<Product>> getProductByName(@RequestParam("name") String name) {
         List<Product> products = productService.getProductByName(name);
         return ResponseEntity.ok(products);
     }
 
     //Update a product by ID.
-    @PutMapping("/product")
+    @PutMapping("")
     public ResponseEntity<Product> updateProduct(@RequestParam("id") String id, @RequestBody Product product) {
         Product updatedProduct = productService.updateProduct(id, product);
         return ResponseEntity.ok(updatedProduct);
     }
 
     // Delete a product by ID.
-    @DeleteMapping("/product")
+    @DeleteMapping("")
     public ResponseEntity<String> deleteProduct(@RequestParam("id") String id) {
         productService.deleteProduct(id);
         return ResponseEntity.ok("Product deleted successfully");
